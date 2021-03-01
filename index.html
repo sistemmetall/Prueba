@@ -1,0 +1,398 @@
+
+
+
+<script>
+/**
+ * {"plan":2,"tipo":1,"destacado":true,"cuerpo":4,"ref":2000,"cinta":4,"dcto":40,"control":true}
+ */
+  
+var myApp = angular.module('myApp', []);
+   
+function MyCtrl($scope,filterFilter,orderByFilter) {
+  $scope.plan = 2; //1 para Mensual y 2 para Anual
+  $scope.display = false;
+  $scope.controles = true; // Si muestra la Barra de tiempo
+  $scope.defaultDiscount = 1.25;
+
+  ////////////// SetCuerpo ////////////////
+ $scope.setCuerpo = function(style1,style2,arrList){
+        let arr = '';
+        arrList.forEach(function(item,index){    
+          arr +='<li>'+item+'</li>';
+        });
+  return '<div class="caja-descripcion" style="'+style1+'">\
+            <div style="'+style2+'">\
+                <ul class="lista-descripcion">\
+                '+arr+'\
+                </ul>\
+            </div>\
+          </div>';
+  }
+///////////// Fin SetCuerpo ////////////////
+// <li><strong>Negrita</strong></li>\
+///////////////////// Cintas ///////////////////////////
+$scope.cintas = ['flashsale.png','nocturna-2.svg','cinta-sura.svg','cinta-losandes.svg','cinta-losandes-2.png'];
+/////////////////////Fin Cintas////////////////////////
+
+////////////////////Cuerpos //////////////////////////
+  $scope.img = ['<img class="icono-plan-full" style="width: 136px;" src="https://df.cl/noticias/imag/suscripciones/planes/full-papeld.svg">'];
+
+  $scope.body = { 
+  // Suscripcion General
+   cuerpo0:'<img class="icono-plan-full" style="width: 136px;" src="https://www.df.cl/noticias/imag/suscripciones/planes/2021/combo1.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                            <li>Acceso ilimitado a Df.cl</li>\
+                            <li>Acceso a Papel Digital DF Semana</li>\
+                            <li>Acceso a Papel Digital DF MAS</li>\
+                            <li>Acceso al papel digital desde las 22:00 hrs de la noche anterior.</li>\
+                        </ul>\
+                    </div>\
+            </div>',
+
+  cuerpo1:'<img class="icono-plan-full-new" src="https://www.df.cl/noticias/imag/suscripciones/planes/2021/combo2.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                           <li>DF MAS Papel Domingo</li>\
+                           <li>Acceso Ilimitado a df.cl</li>\
+                           <li>Acceso al Papel Digital DF Semana y DF MAS desde las 22:00 hrs. de la noche anterior.</li>\
+                        </ul>\
+                    </div>\
+            </div>',
+  cuerpo2:'<img class="icono-plan-full" style="width: 136px;" src="https://www.df.cl/noticias/imag/suscripciones/planes/2021/combo3.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                          <li>DF MAS Papel Domingo a la puerta de tu casa.</li>\
+                          <li>Acceso al papel digital DF MAS desde las 22:00 hrs del sábado</li>\
+                        </ul>\
+                    </div>\
+            </div>',          
+            
+// fin Suscripcion General
+// 
+// Suscripcion Digital
+  //imagen monitor solo
+  cuerpo3:'<img class="icono-plan-full" style="width: 136px;" src="https://www.df.cl/noticias/imag/suscripciones/planes/2021/dffull.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                           <li>Acceso ilimitado a Df.cl</li>\
+                        </ul>\
+                    </div>\
+            </div>',
+  /*cuerpo4:'<img class="icono-plan-full" style="width: 136px;" src="https://df.cl/noticias/imag/suscripciones/planes/full-papeld.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                          <li>Acceso ilimitado a Df.cl</li>\
+                          <li>Acceso a Papel Digital DF Semana</li>\
+                          <li>Acceso a Papel Digital DF MAS</li>\
+                          <li>Acceso al papel digital desde las 22:00 hrs de la noche anterior.</li>\
+                        </ul>\
+                    </div>\
+            </div>', */  
+  cuerpo4:$scope.img[0]+
+          $scope.setCuerpo("padding-left:12px;",
+                           "max-width: 275px; margin: 0 auto;",
+                             ["Acceso ilimitado a Df.cl",
+                              "Acceso a Papel Digital DF Semana",
+                              "Acceso a Papel Digital DF MAS",
+                              "Acceso al papel digital desde las 22:00 hrs de la noche anterior. ULT"
+                             ]
+                           ),                        
+
+  cuerpo5:'<img class="icono-plan-full" style="width: 136px;" src="https://www.df.cl/noticias/imag/suscripciones/planes/2021/combo3.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                          <li>Acceso papel Digital DF MAS</li>\
+                          <li>Acceso a Papel Digital Semana</li>\
+                          <li>Acceso al papel digital desde las 22:00 hrs de la noche anterior.</li>\
+                        </ul>\
+                    </div>\
+            </div>',  
+  //fin Suscripcion Digital
+  //
+  // Suscripcion Papel
+  cuerpo6:'<img class="icono-plan-full" style="width: 136px;" src="https://www.df.cl/noticias/imag/suscripciones/planes/2021/combo4.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                         <li>DF MAS Papel Domingo</li>\
+                         <li>DF Papel Semana</li>\
+                         <li>Acceso al papel digital DF Semana y DF MAS desde las 22:00 hrs. de la noche anterior.</li>\
+                        </ul>\
+                    </div>\
+            </div>',
+            //Grupo de imagenes
+  cuerpo7:'<img class="icono-plan-full" style="width: 136px;" src="https://www.df.cl/noticias/imag/suscripciones/planes/2021/combo5.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                         <li>Acceso Ilimitado a df.cl</li>\
+                         <li>DF MAS Papel Domingo</li>\
+                         <li>DF Papel Semana</li>\
+                         <li>Acceso al papel digital DF Semana y DF MAS desde las 22:00 hrs. de la noche anterior.</li>\
+                        </ul>\
+                    </div>\
+            </div>',          
+  cuerpo8:'<img class="icono-plan-full" style="width: 136px;" src="https://www.df.cl/noticias/imag/suscripciones/planes/2021/combo6.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                         <li>Acceso a Papel Semana</li>\
+                         <li>Acceso a Papel Digital Semana</li>\
+                        </ul>\
+                    </div>\
+            </div>',
+  cuerpo9:'<img class="icono-plan-full" style="width: 136px;" src="https://www.df.cl/noticias/imag/suscripciones/planes/2021/combo3.svg">\
+            <div class="caja-descripcion" style="padding-left:12px;">\
+                    <div style="max-width: 275px; margin: 0 auto;">\
+                        <ul class="lista-descripcion">\
+                          <li>DF MAS Papel Domingo a la puerta de tu casa.</li>\
+                          <li>Acceso al papel digital DF MAS desde las 22:00 hrs del sábado</li>\
+                        </ul>\
+                    </div>\
+            </div>',          
+                                                             
+}
+
+///////////////Fin Cuerpos //////////////////////////////
+
+
+
+
+  $scope.parJson = function(json) {
+      return angular.fromJson(json);
+  }
+  $scope.refresh = function(){
+     $scope.$apply();
+  }
+  $scope.fireClickEvent = function($event) {
+     $scope.getFiltro( $scope.plan);
+  }
+  $scope.filtro = [];
+  $scope.getFiltro = function(strCat){
+    return filterFilter( $scope.terms, { config: { plan: strCat } });
+  }
+  $scope.getCount = function(strCat){
+    return filterFilter( $scope.terms, { config: { plan: strCat } }).length;
+  }
+  
+ $scope.terms = $scope.terms.map(term => ({...term,config:$scope.parJson(term.description.split("|")[1])}));
+
+// $scope.terms = filterFilter( $scope.terms, { config: { destacado: true } });
+// 
+  //console.log('cong',$scope.terms);
+  console.log('term',$scope.terms[0].config.plan);
+  console.log('term count',$scope.getCount(1));
+  console.log('term all',$scope.terms);
+
+  if (typeof $scope.terms[0].config.control !== 'undefined') {
+    console.log('Definido- : '+$scope.terms[0].config.control);
+    $scope.controles = $scope.terms[0].config.control;
+  }else{
+    console.log('No Definido');
+  }
+
+ $scope.getOrderTerm = function(){
+  
+    if($scope.isMobile()){
+        let arrayDes = filterFilter( $scope.terms, { config: { destacado: true } });
+        let arraySin = filterFilter( $scope.terms, { config: { destacado: false } });
+
+        let arr = [];
+        arrayDes.forEach(function(item,index){    
+          arr.push({...item});
+        });
+        arraySin.forEach(function(item,index){    
+          arr.push({...item});
+        });
+        $scope.terms = arr;
+    }    
+ }
+
+ $scope.isMobile = function(){
+
+     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+       return true
+     } else {
+       return false
+     }
+  }
+  
+ $scope.format = function(value){
+              let val = (value/1).toFixed(0).replace('.', ',')
+              return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+ }
+
+ $scope.getImgCinta = function(item){
+  return item.config.cinta !== undefined ? '<img src="https://www.df.cl/noticias/imag/suscripciones/planes/'
+                                           +$scope.cintas[item.config.cinta]+'?v=1.1.2" class="cinta-cyber">'
+                                         :'';
+ }
+ $scope.getDiscount = function(price,discount){
+              let stringNumber = "1."+discount;
+               return  price * parseFloat(stringNumber);
+ }
+ console.log('format'+$scope.format(2000));
+ $scope.getOrderTerm();
+  
+}
+myApp.controller("MyCtrl",MyCtrl);
+
+</script>
+
+<div  ng-controller="MyCtrl">
+  <test></test>
+        <second></second>
+
+  <div ng-show="controles" class="row" style="margin-bottom: 50px;">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="meses-botones">
+                <!--<h6 class="meses-boton" style="text-align: left;" >3 meses</h6>-->
+                <h6 class="meses-boton" style="text-align: center; padding-left: 62px;">Mes</h6>
+                <h6 class="meses-boton" style="text-align: center;">Año</h6>
+            </div>
+            <div class="slidecontainer">
+                <input type="range" ng-change="alert('HOLA')" ng-click="alert('HOLA1')" min="1" max="2" ng-model="plan" class="slider">
+            </div>
+         <!-- <input  class="btn-registro-news"  type="button" ng-click="fireClickEvent($event);" value="Delete"> -->
+        </div>
+    </div>
+  <input  type="text" ng-if="display" value="{{ terms }}">
+<div ng-repeat="term in getFiltro(plan)"  ng-init='varOffer=parJson(term.description.split("|")[1])'>
+
+ <div class="col-md-4" ng-if="1 == $index+1 && getCount(plan) == 1 && term.config.plan == plan" ></div>
+ <div class="col-md-3" ng-if="1 == $index+1 && getCount(plan) == 2 && term.config.plan == plan" ></div>
+ <div class="col-md-2" ng-if="1 == $index+1 && getCount(plan) == 3 && term.config.plan == plan" ></div>
+  
+ <div ng-class="getCount(plan) >= 4 ? 'col-md-32' :''" class="col-md-3 caja-suscripcion" style="margin-bottom: 25px;" ng-if="term.config.plan == plan && !term.config.destacado || !controles && !term.config.destacado">
+  <div ng-if="term.config.cinta !== undefined" ng-bind-html="getImgCinta(term)"></div>
+     <input ng-if="display" type="text" value="{{ term }}">
+       <h1 class="titulo-promo s-t" >
+          {{ term.name}}
+          <!-- (plan:{{plan}}  {{$index+1}}) -->
+       </h1>
+        <div class="caja-precio">
+            <p class="precio-n-cp">
+                <strong>
+                    ${{format(term.chargeAmount)}}</strong>
+                <br />
+                <span class="n-meses">
+                    <img src="https://www.df.cl/noticias/imag/suscripciones/linea-meses.png">
+                 {{term.firstPeriod}}
+                    <img src="https://www.df.cl/noticias/imag/suscripciones/linea-meses.png">
+                </span>
+            </p>
+              <!-- precio anual -->
+            <p class="referencia">
+                <span ng-if="term.config.plan == 2">Valor Referencia Anual</span>
+                <span ng-if="term.config.plan != 2">Valor Referencia Anual</span>
+                <span ng-if="!term.hasFreeTrial && term.config.ref !== undefined">{{format(term.config.ref)}}</span>
+            </p>
+            <!-- fin precio anual -->
+        </div>
+        <slot name="cuerpo">
+        <!-- <h2 class="titulo2-promo" style="margin: 10 10 10 10">
+              {{ term.description.split('|')[0] }}
+        </h2> -->
+
+          
+        <div ng-if="term.config.cuerpo >= 0" ng-bind-html="body['cuerpo'+term.config.cuerpo]"></div>
+
+        </slot>
+        <a class="boton-suscribete"
+                        
+                        ng-click="startCheckout(term.termId)"
+                        external-event="offer-subscribe-{{ $index }}">
+                    <span ng-show="isPayableTerm(term)">
+                        <span class="price">
+                            <span ng-if="term.hasFreeTrial"><t>Free</t></span>
+                            <span ng-if="!term.hasFreeTrial">Suscríbete ahora<!-- {{format(term.chargeAmount)}} --></span>
+                        </span>
+                        <!-- <span class="period"><t>/ {{term.firstPeriod}}</t></span> -->
+                    </span>
+                    <span ng-hide="isPayableTerm(term)" class="non-payment">
+                        <t>Subscribe now</t>
+                    </span>
+                </a>
+        <slot name="footer">
+          <p ng-if="term.config.tipo == 2" class="txt-legal-caja">* Producto impreso con venta online solo en Región Metropolitana. Para otras regiones contactar a suscripciones@df.cl.</p>
+       </slot>
+    </div> 
+    <!-- fin secundaria --> 
+    <!-- principal -->
+
+    <div ng-class="getCount(plan) >= 4 ? 'col-md-32' :''" class="col-md-3 full-digital" style="margin-bottom: 25px;" ng-if="term.config.plan == plan && term.config.destacado || !controles && term.config.destacado">
+     <div ng-if="term.config.cinta !== undefined" ng-bind-html="getImgCinta(term)"></div>
+     <div class="mejor-precio">Mejor precio</div> 
+     <input ng-if="display" type="text" value="{{ term }}">
+       <h1 class="titulo-promo s-t" >
+          {{ term.name}}
+          <!-- (plan:{{plan}}  {{$index+1}}) -->
+
+       </h1>
+       <!-- dcto cyber -->
+        <div ng-if="term.config.dcto" class="cyber-dcto">
+            <p>
+                <img src="https://www.df.cl/noticias/imag/suscripciones/planes/flecha-naranja-izq.svg">
+                {{term.config.dcto}}% DCTO
+                <img class="bolsa-cyber" src="https://www.df.cl/noticias/imag/suscripciones/planes/bolsa-cyber.svg">
+                <img src="https://www.df.cl/noticias/imag/suscripciones/planes/flecha-naranja-der.svg">
+            </p>
+        </div><!-- fin dcto cyber -->
+        <div class="caja-precio">
+            <p class="precio-n-cp">
+                <strong>
+                    ${{format(term.chargeAmount)}}</strong>
+                <br />
+                <span class="n-meses">
+                    <img src="https://www.df.cl/noticias/imag/suscripciones/linea-meses.png">
+                 {{term.firstPeriod}}
+                    <img src="https://www.df.cl/noticias/imag/suscripciones/linea-meses.png">
+                </span>
+            </p>
+              <!-- precio anual -->
+            <p class="referencia">
+                <span ng-if="term.config.plan == 2">Valor Referencia Anual</span>
+                <span ng-if="term.config.plan != 2">Valor Referencia Anual</span>
+                <span ng-if="!term.hasFreeTrial && term.config.ref !== undefined">{{format(term.config.ref)}}</span>
+            </p>
+            <!-- fin precio anual -->
+        </div>
+        <slot name="cuerpo">
+        <!-- <h2 class="titulo2-promo" style="margin: 10 10 10 10">
+              {{ term.description.split('|')[0] }}
+        </h2> -->
+
+          
+        <div ng-if="term.config.cuerpo >= 0" ng-bind-html="body['cuerpo'+term.config.cuerpo]"></div>
+
+        </slot>
+        <a class="boton-suscribete"
+                        
+                        ng-click="startCheckout(term.termId)"
+                        external-event="offer-subscribe-{{ $index }}">
+                    <span ng-show="isPayableTerm(term)">
+                        <span class="price">
+                            <span ng-if="term.hasFreeTrial"><t>Free</t></span>
+                            <span ng-if="!term.hasFreeTrial">Suscríbete ahora<!-- {{format(term.chargeAmount)}} --></span>
+                        </span>
+                        <!-- <span class="period"><t>/ {{term.firstPeriod}}</t></span> -->
+                    </span>
+                    <span ng-hide="isPayableTerm(term)" class="non-payment">
+                        <t>Subscribe now</t>
+                    </span>
+                </a>
+        <slot name="footer">
+          <p ng-if="term.config.tipo == 2" class="txt-legal-caja">* Producto impreso con venta online solo en Región Metropolitana. Para otras regiones contactar a suscripciones@df.cl.</p>
+       </slot>        
+    </div>
+    <!-- fin principal -->
+</div>
+</div>
